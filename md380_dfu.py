@@ -280,9 +280,11 @@ radio will be radio to accept this firmware update.""")
             address_idx += 1
         print("100% complete, now safe to disconnect and/or reboot radio")
         return True
-    except Exception as e:
-        print(e)
-        return False
+    #except Exception as e:
+    #    print(e)
+    #    return False
+    except NeverThrown as e:
+        pass
 
 
 def upload(dfu, flash_address, length, path):
@@ -566,14 +568,18 @@ def main():
                 usage()
         else:
             usage()
-    except RuntimeError as e:
-        print(e.args[0])
-        exit(1)
-    except Exception as e:
-        print(e)
-        # print(dfu.get_status())
+    #except RuntimeError as e:
+    #    print(e.args[0])
+    #    exit(1)
+    #except Exception as e:
+    #    print(e)
+    #    # print(dfu.get_status())
+    #    exit(1)
+    except NeverThrown as e:
         exit(1)
 
+class NeverThrown(Exception):
+    pass
 
 if __name__ == '__main__':
     main()
