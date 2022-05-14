@@ -268,7 +268,7 @@ radio will be radio to accept this firmware update.""")
                 packet, data = data[:block_size], data[block_size:]
 
                 if len(packet) < block_size:
-                    packet += '\xFF' * (block_size - len(packet))
+                    packet += b'\xFF' * (block_size - len(packet))
 
                 dfu.download(block_number, packet)
                 dfu.wait_till_ready()

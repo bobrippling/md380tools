@@ -145,9 +145,15 @@ class DFU(object):
                 exit()
         else:
             time_to_set = datetime.now()
-        dt = datetime.strftime(time_to_set, '%Y%m%d%H%M%S').decode("hex")
+
+        dt_str = datetime.strftime(time_to_set, '%Y%m%d%H%M%S')
+        if sys.version[0] == '3':
+            import binascii
+            dt = binascii.unhexlify(dt_str.encode('ascii'))
+        else:
+            dt = dt_str.decode("hex")
         self.md380_custom(0x91, 0x02)
-        self.download(0, "\xb5" + dt)
+        self.download(0, b"\xb5" + dt)
         self.wait_till_ready()
         self.md380_reboot()
 
